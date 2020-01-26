@@ -117,5 +117,5 @@ for file in glob.glob('data/raw/*'):
                                                         'weekend': we_avg_depart_hourly}
 
 
-with open('data/ridership_data.json', 'w') as outfile:
+with open('public/ridership_data.json', 'w') as outfile:
     json.dump(output, outfile)
