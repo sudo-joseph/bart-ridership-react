@@ -75,42 +75,38 @@ class App extends Component {
         'Accept': 'application/json'
       }
     }).then(response => response.json()).then(json_data => {
-      this.setState({ridership_data: json_data});
-      this.getGraphData()
-    })
+      this.setState({ridership_data: json_data}, this.getGraphData);
 
+    })
   }
 
    updateStation = (ev) => {
      const value = ev.target.value;
      this.setState({
        station: value,
-     });
-     this.getGraphData()
+     },this.getGraphData);
    }
 
    updateYear = (ev) => {
      const value = ev.target.value;
      this.setState({
        year: value,
-     });
-     this.getGraphData()
+     },this.getGraphData);
+
    }
 
    updateMonth = (ev) => {
      const value = ev.target.value;
      this.setState({
        month: value,
-     });
-     this.getGraphData()
+     },this.getGraphData);
    }
 
    updateDayofWeek = (ev) => {
      const value = ev.target.value;
      this.setState({
        dayofweek: value,
-     });
-     this.getGraphData()
+     },this.getGraphData);
    }
 
     componentDidMount() {
@@ -125,7 +121,6 @@ class App extends Component {
         arrival_data: arriving.map(x => Math.round(x*this.state.scaleFactor)),
         depart_data: departing.map(x => Math.round(x*this.state.scaleFactor))
       })
-      this.render()
     }
 
     render() {
@@ -149,7 +144,7 @@ class App extends Component {
               <div className="Content-Dataview">
                 <div className="Content-Dataview-Controls">
                   <select className="Content-Dataview-Controls-Station"
-                          onChange={this.updateStation}>
+                          onChange={(evt) => this.updateStation(evt)}>
                   {
                     Object.entries(this.state.stations).map(([key, value]) => (
                       <option className="Content-Dataview-Controls-Option"
@@ -158,7 +153,7 @@ class App extends Component {
                   }
                   </select>
                   <select className="Content-Dataview-Controls-Year"
-                          onChange={this.updateYear}>
+                          onChange={(evt) => this.updateYear(evt)}>
                     {
                       this.state.years.map(year => (
                         <option className="Content-Dataview-Controls-Option"
@@ -167,7 +162,7 @@ class App extends Component {
                     }
                   </select>
                   <select className="Content-Dataview-Controls-Month"
-                          onChange={this.updateMonth}>
+                          onChange={(evt) => this.updateMonth(evt)}>
                     {
                       this.state.months.map(month => (
                         <option className="Content-Dataview-Controls-Option"
@@ -176,7 +171,7 @@ class App extends Component {
                     }
                   </select>
                   <select className="Content-Dataview-Controls-DayofWeek"
-                          onChange={this.updateDayofWeek }>
+                          onChange={(evt) => this.updateDayofWeek(evt)}>
                     <option value="weekday"
                            >Weekdays
                     </option>
