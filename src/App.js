@@ -131,8 +131,7 @@ class App extends Component {
             </div>
             <div className="Content">
               <div className="Content-Title">
-                <h3> {this.state.stations[this.state.station]}
-                  Station Arriving and Departing Passengers</h3>
+                <h3> {this.state.stations[this.state.station]+ "  Station Arriving and Departing Passengers"} </h3>
                 <h4> (Monthly Average Pax per Hour)</h4>
               </div>
               <div className="Content-Dataview-yAxis">
