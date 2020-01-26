@@ -76,7 +76,6 @@ class App extends Component {
       }
     }).then(response => response.json()).then(json_data => {
       this.setState({ridership_data: json_data}, this.getGraphData);
-
     })
   }
 
@@ -132,6 +131,9 @@ class App extends Component {
             </div>
             <div className="Content">
               <div className="Content-Title">
+                <h3> {this.state.stations[this.state.station]}
+                  Station Arriving and Departing Passengers</h3>
+                <h4> (Monthly Average Pax per Hour)</h4>
               </div>
               <div className="Content-Dataview-yAxis">
                 <div className="Content-Dataview-yAxis-Top">
