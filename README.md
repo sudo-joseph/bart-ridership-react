@@ -1,7 +1,7 @@
 # Bart Ridership Data Visualization
 This project visualizes the average volume of passengers arriving and departing for selected Bart Station, Year, Month, and day type over a 24 hour period. Data has been made available for 2011-2019. 2020 data will be updated once available.
 
-## Data Source:
+## Data Source
 Bart provides various ridership data in .xlsx format. Data containing hourly trips between station pairs has been downloaded and is available in the data directory of this repo. Original data data can be found here:
  * [Bart Ridership Reports](https://www.bart.gov/about/reports/ridership)
  * [Hourly Ridership by Origin-Destination Pairs](http://64.111.127.166/origin-destination/)
