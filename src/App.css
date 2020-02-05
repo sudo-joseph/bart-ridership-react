@@ -64,6 +64,11 @@
   justify-content: center;
 }
 
+.Content-Dataview-Controls {
+  display: flex;
+  flex-direction: stretch;
+}
+
 .Content-Dataview-Top {
   display: flex;
   flex-direction: row;
