@@ -119,7 +119,7 @@ class App extends Component {
       let arriving = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['arriving'][this.state.dayofweek];
       let departing = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['departing'][this.state.dayofweek];
       this.setState({
-        arrival_data: arriving.map(x => Math.round(x*this.state.scaleFactor)),
+        arrivalData: arriving.map(x => Math.round(x*this.state.scaleFactor)),
         departData: departing.map(x => Math.round(x*this.state.scaleFactor))
       })
     }
