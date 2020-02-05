@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import Select from './components/Select/Select.js';
+
+
 class App extends Component {
   state = {
     station:"12TH",
@@ -113,7 +116,6 @@ class App extends Component {
     }
 
     getGraphData = () => {
-      console.log('getGraphData')
       let arriving = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['arriving'][this.state.dayofweek];
       let departing = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['departing'][this.state.dayofweek];
       this.setState({
@@ -123,7 +125,6 @@ class App extends Component {
     }
 
     render() {
-      console.log('rendering')
       return (
           <div className="Page">
             <div className="Header">
@@ -144,42 +145,22 @@ class App extends Component {
               </div>
               <div className="Content-Dataview">
                 <div className="Content-Dataview-Controls">
-                  <select className="Content-Dataview-Controls-Station"
-                          onChange={(evt) => this.updateStation(evt)}>
-                  {
-                    Object.entries(this.state.stations).map(([key, value]) => (
-                      <option className="Content-Dataview-Controls-Option"
-                               value= {key}> {value} </option>
-                          ))
-                  }
-                  </select>
-                  <select className="Content-Dataview-Controls-Year"
-                          onChange={(evt) => this.updateYear(evt)}>
-                    {
-                      this.state.years.map(year => (
-                        <option className="Content-Dataview-Controls-Option"
-                                value={year}> {year} </option>
-                            ))
-                    }
-                  </select>
-                  <select className="Content-Dataview-Controls-Month"
-                          onChange={(evt) => this.updateMonth(evt)}>
-                    {
-                      this.state.months.map(month => (
-                        <option className="Content-Dataview-Controls-Option"
-                                value={month}> {month} </option>
-                            ))
-                    }
-                  </select>
-                  <select className="Content-Dataview-Controls-DayofWeek"
-                          onChange={(evt) => this.updateDayofWeek(evt)}>
-                    <option value="weekday"
-                           >Weekdays
-                    </option>
-                    <option value="weekend"
-                           >Weekends & Holidays
-                   </option>
-                  </select>
+                  <Select
+                    name="Stations"
+                    items={this.state.stations}
+                    changeFcn={this.updateStation}/>
+                  <Select
+                    name="Year"
+                    items={this.state.years.reduce(function(o, val) { o[val] = val; return o; }, {})}
+                    changeFcn={this.updateYear}/>
+                  <Select
+                    name="Month"
+                    items={this.state.months.reduce(function(o, val) { o[val] = val; return o; }, {})}
+                    changeFcn={this.updateMonth}/>
+                  <Select
+                    name="DayofWeek"
+                    items={{'weekday':'Weekdays','weekend':'Weekends & Holidays'}}
+                    changeFcn={this.updateDayofWeek}/>
                 </div>
                 <div className="Content-Dataview-yAxis Content-Data-yAxis-Top">
                   <div className="">
