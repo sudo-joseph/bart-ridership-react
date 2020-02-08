@@ -1,100 +1,94 @@
 import React, { Component } from 'react';
 import './MirroredBarChart.css';
 import Select from '../../components/Select/Select.js';
+import Header from '../../components/Header/Header.js';
 
 class MirroredBarChart extends Component {
   render() {
 
     return (
-      <div className="Content">
-        <div className="Content-Title">
-          <h3> {this.props.stations[this.props.station]+ "  Station Arriving and Departing Passengers"} </h3>
-          <h4> (Monthly Average Pax per Hour)</h4>
+      <div className="MBC">
+        <Header
+           title={this.props.title}
+           subtitle={this.props.subtitle}/>
+        <div className="MBC-Dataview-yAxis">
+          <div className="MBC-Dataview-yAxis-Top">
+            {this.props.yAxisLabelTop}
+          </div>
+          <div className="MBC-Dataview-yAxis-Bottom">
+            {this.props.yAxisLabelBottom}
+          </div>
         </div>
-        <div className="Content-Dataview-yAxis">
-          <div className="Content-Dataview-yAxis-Top">
-            Arrivals
+        <div className="MBC-Dataview">
+          <div className="MBC-Dataview-Controls">
+            {this.props.controls.map((data,index) => (
+              <Select
+                name={data.name}
+                items={data.items}
+                changeFcn={data.changeFcn}
+                key={index}/>
+              ))
+            }
           </div>
-          <div className="Content-Dataview-yAxis-Bottom">
-            Departures
-          </div>
-        </div>
-        <div className="Content-Dataview">
-          <div className="Content-Dataview-Controls">
-            <Select
-              name="Stations"
-              items={this.props.stations}
-              changeFcn={this.props.updateStation}/>
-            <Select
-              name="Year"
-              items={this.props.years.reduce(function(o, val) { o[val] = val; return o; }, {})}
-              changeFcn={this.props.updateYear}/>
-            <Select
-              name="Month"
-              items={this.props.months.reduce(function(o, val) { o[val] = val; return o; }, {})}
-              changeFcn={this.props.updateMonth}/>
-            <Select
-              name="DayofWeek"
-              items={{'weekday':'Weekdays','weekend':'Weekends & Holidays'}}
-              changeFcn={this.props.updateDayofWeek}/>
-          </div>
-          <div className="Content-Dataview-yAxis Content-Data-yAxis-Top">
+          <div className="MBC-Dataview-yAxis MBC-Data-yAxis-Top">
             <div className="">
               &lt;
             </div>
-            <div className="Content-Dataview-yAxis-Hr">
+            <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
-            <div>15000 Pax</div>
-            <div className="Content-Dataview-yAxis-Hr">
+            <div>{this.props.yAxisRange} Pax</div>
+            <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
             <div className="">
               &gt;
             </div>
           </div>
-          <div className="Content-Dataview-Top">
+          <div className="MBC-Dataview-Top">
             {
-              this.props.arrivalData.map(top => (
-                 <div className="Content-Dataview-Data-Box"
-                        style={{height: top,}}> {Math.round(top/this.props.scaleFactor)} </div>
+              this.props.upperData.map((top,index) => (
+                 <div   key={index+100}
+                        className="MBC-Dataview-Data-Box"
+                        style={{height: top,}}> </div>
                     ))
             }
           </div>
-          <div className="Content-Dataview-Bottom">
+          <div className="MBC-Dataview-Bottom">
             {
-              this.props.departData.map(bottom => (
-                 <div className="Content-Dataview-Data-Box"
-                        style={{height: bottom,}}> {Math.round(bottom/this.props.scaleFactor)} </div>
+              this.props.lowerData.map((bottom,index) => (
+                 <div   key={index+200}className="MBC-Dataview-Data-Box"
+                        style={{height: bottom,}}></div>
                     ))
             }
           </div>
-          <div className="Content-Dataview-yAxis Content-Data-yAxis-Bottom">
+          <div className="MBC-Dataview-yAxis MBC-Data-yAxis-Bottom">
             <div className="">
               &lt;
             </div>
-            <div className="Content-Dataview-yAxis-Hr">
+            <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
-            <div>15000 Pax</div>
-            <div className="Content-Dataview-yAxis-Hr">
+            <div>{this.props.yAxisRange} Pax</div>
+            <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
             <div className="">
               &gt;
             </div>
           </div>
-          <div className="Content-Dataview-xAxis">
+          <div className="MBC-Dataview-xAxis">
             {
-              this.props.arrivalData.map((hour,index) => (
-            <div className="Content-Dataview-xAxis-Box">
-              {index}
+              this.props.xAxisValue.map((value,index) => (
+            <div key={index+300}
+              className="MBC-Dataview-xAxis-Box">
+              {value}
             </div>
           ))}
 
           </div>
-          <div className="Content-Dataview-xLabel">
-            (Hour of Day)
+          <div className="MBC-Dataview-xLabel">
+            {this.props.xAxisLabel}
           </div>
         </div>
       </div>
