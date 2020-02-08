@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import MirroredBarChart from './components/MirroredBarChart/MirroredBarChart.js';
+
 class App extends Component {
   state = {
     station:"12TH",
     year:2019,
     month:"Jan",
     dayofweek:"weekday",
-    ridership_data: {},
-    arrival_data:[],
-    depart_data:[],
+    ridershipData: {},
+    arrivalData:[],
+    departData:[],
     years:["2019","2018","2017","2016","2015","2014",
                  "2015","2014","2013","2012","2011"],
     months:["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     scaleFactor:200/15000, //200px = 15000 riders.
+    yAxisRange:15000,
     stations:{"12TH": "12th Street / Oakland City Center",
               "16TH": "16th Street Mission",
               "19TH": "19th Street Oakland",
@@ -113,134 +116,51 @@ class App extends Component {
     }
 
     getGraphData = () => {
-      console.log('getGraphData')
       let arriving = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['arriving'][this.state.dayofweek];
       let departing = this.state.ridership_data[this.state.year][this.state.month][this.state.station]['departing'][this.state.dayofweek];
       this.setState({
-        arrival_data: arriving.map(x => Math.round(x*this.state.scaleFactor)),
-        depart_data: departing.map(x => Math.round(x*this.state.scaleFactor))
+        arrivalData: arriving.map(x => Math.round(x*this.state.scaleFactor)),
+        departData: departing.map(x => Math.round(x*this.state.scaleFactor))
       })
     }
 
     render() {
-      console.log('rendering')
       return (
           <div className="Page">
-            <div className="Header">
+            <div className="Page-Header">
               <h1>Bart Ridership Data</h1>
             </div>
-            <div className="Content">
-              <div className="Content-Title">
-                <h3> {this.state.stations[this.state.station]+ "  Station Arriving and Departing Passengers"} </h3>
-                <h4> (Monthly Average Pax per Hour)</h4>
-              </div>
-              <div className="Content-Dataview-yAxis">
-                <div className="Content-Dataview-yAxis-Top">
-                  Arrivals
-                </div>
-                <div className="Content-Dataview-yAxis-Bottom">
-                  Departures
-                </div>
-              </div>
-              <div className="Content-Dataview">
-                <div className="Content-Dataview-Controls">
-                  <select className="Content-Dataview-Controls-Station"
-                          onChange={(evt) => this.updateStation(evt)}>
-                  {
-                    Object.entries(this.state.stations).map(([key, value]) => (
-                      <option className="Content-Dataview-Controls-Option"
-                               value= {key}> {value} </option>
-                          ))
-                  }
-                  </select>
-                  <select className="Content-Dataview-Controls-Year"
-                          onChange={(evt) => this.updateYear(evt)}>
-                    {
-                      this.state.years.map(year => (
-                        <option className="Content-Dataview-Controls-Option"
-                                value={year}> {year} </option>
-                            ))
-                    }
-                  </select>
-                  <select className="Content-Dataview-Controls-Month"
-                          onChange={(evt) => this.updateMonth(evt)}>
-                    {
-                      this.state.months.map(month => (
-                        <option className="Content-Dataview-Controls-Option"
-                                value={month}> {month} </option>
-                            ))
-                    }
-                  </select>
-                  <select className="Content-Dataview-Controls-DayofWeek"
-                          onChange={(evt) => this.updateDayofWeek(evt)}>
-                    <option value="weekday"
-                           >Weekdays
-                    </option>
-                    <option value="weekend"
-                           >Weekends & Holidays
-                   </option>
-                  </select>
-                </div>
-                <div className="Content-Dataview-yAxis Content-Data-yAxis-Top">
-                  <div className="">
-                    &lt;
-                  </div>
-                  <div className="Content-Dataview-yAxis-Hr">
-                    <hr />
-                  </div>
-                  <div>15000 Pax</div>
-                  <div className="Content-Dataview-yAxis-Hr">
-                    <hr />
-                  </div>
-                  <div className="">
-                    &gt;
-                  </div>
-                </div>
-                <div className="Content-Dataview-Top">
-                  {
-                    this.state.arrival_data.map(top => (
-                       <div className="Content-Dataview-Data-Box"
-                              style={{height: top,}}> {Math.round(top/this.state.scaleFactor)} </div>
-                          ))
-                  }
-                </div>
-                <div className="Content-Dataview-Bottom">
-                  {
-                    this.state.depart_data.map(bottom => (
-                       <div className="Content-Dataview-Data-Box"
-                              style={{height: bottom,}}> {Math.round(bottom/this.state.scaleFactor)} </div>
-                          ))
-                  }
-                </div>
-                <div className="Content-Dataview-yAxis Content-Data-yAxis-Bottom">
-                  <div className="">
-                    &lt;
-                  </div>
-                  <div className="Content-Dataview-yAxis-Hr">
-                    <hr />
-                  </div>
-                  <div>15000 Pax</div>
-                  <div className="Content-Dataview-yAxis-Hr">
-                    <hr />
-                  </div>
-                  <div className="">
-                    &gt;
-                  </div>
-                </div>
-                <div className="Content-Dataview-xAxis">
-                  {
-                    this.state.arrival_data.map((hour,index) => (
-                  <div className="Content-Dataview-xAxis-Box">
-                    {index}
-                  </div>
-                ))}
-
-                </div>
-                <div className="Content-Dataview-xLabel">
-                  (Hour of Day)
-                </div>
-              </div>
-            </div>
+            <MirroredBarChart
+              title={`${this.state.stations[this.state.station]}
+                                 Station Arriving and Departing Passengers`}
+              subtitle="(Monthly Average Pax per Hour)"
+              controls={[
+                          {name:"Stations",
+                          items:this.state.stations,
+                          changeFcn:this.updateStation,
+                          },
+                          {name:"Year",
+                          items:this.state.years.reduce(function(o, val) { o[val] = val; return o; }, {}),
+                          changeFcn:this.updateYear,
+                          },
+                          {name:"Month",
+                          items:this.state.months.reduce(function(o, val) { o[val] = val; return o; }, {}),
+                          changeFcn:this.updateMonth,
+                          },
+                          {name:"DayofWeek",
+                          items:{'weekday':'Weekdays','weekend':'Weekends & Holidays'},
+                          changeFcn:this.updateDayofWeek,
+                          },
+                         ]}
+              upperData={this.state.arrivalData}
+              lowerData={this.state.arrivalData}
+              xAxisValue={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}
+              xAxisLabel={"(Hour of Day)"}
+              yAxisLabelTop={"Arrivals"}
+              yAxisLabelBottom={"Depatures"}
+              scaleFactor={this.state.scaleFactor}
+              yAxisRange={this.state.yAxisRange}
+              ></MirroredBarChart>
           </div>
       );
     }
