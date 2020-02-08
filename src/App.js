@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Select from './components/Select/Select.js';
 import MirroredBarChart from './components/MirroredBarChart/MirroredBarChart.js';
 
 class App extends Component {
@@ -18,6 +17,7 @@ class App extends Component {
     months:["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     scaleFactor:200/15000, //200px = 15000 riders.
+    yAxisRange:15000,
     stations:{"12TH": "12th Street / Oakland City Center",
               "16TH": "16th Street Mission",
               "19TH": "19th Street Oakland",
@@ -127,21 +127,39 @@ class App extends Component {
     render() {
       return (
           <div className="Page">
-            <div className="Header">
+            <div className="Page-Header">
               <h1>Bart Ridership Data</h1>
             </div>
             <MirroredBarChart
-              stations = {this.state.stations}
-              station = {this.state.station}
-              years = {this.state.years}
-              months = {this.state.months}
-              arrivalData = {this.state.arrivalData}
-              departData = {this.state.departData}
-              scaleFactor = {this.state.scaleFactor}
-              updateStation = {this.updateStation}
-              updateYear = {this.updateYear}
-              updateMonth = {this.updateMonth}
-              updateDayofWeek = {this.updateDayofWeek}
+              title={`${this.state.stations[this.state.station]}
+                                 Station Arriving and Departing Passengers`}
+              subtitle="(Monthly Average Pax per Hour)"
+              controls={[
+                          {name:"Stations",
+                          items:this.state.stations,
+                          changeFcn:this.updateStation,
+                          },
+                          {name:"Year",
+                          items:this.state.years.reduce(function(o, val) { o[val] = val; return o; }, {}),
+                          changeFcn:this.updateYear,
+                          },
+                          {name:"Month",
+                          items:this.state.months.reduce(function(o, val) { o[val] = val; return o; }, {}),
+                          changeFcn:this.updateMonth,
+                          },
+                          {name:"DayofWeek",
+                          items:{'weekday':'Weekdays','weekend':'Weekends & Holidays'},
+                          changeFcn:this.updateDayofWeek,
+                          },
+                         ]}
+              upperData={this.state.arrivalData}
+              lowerData={this.state.arrivalData}
+              xAxisValue={[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]}
+              xAxisLabel={"(Hour of Day)"}
+              yAxisLabelTop={"Arrivals"}
+              yAxisLabelBottom={"Depatures"}
+              scaleFactor={this.state.scaleFactor}
+              yAxisRange={this.state.yAxisRange}
               ></MirroredBarChart>
           </div>
       );
