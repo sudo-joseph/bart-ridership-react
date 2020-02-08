@@ -10,8 +10,6 @@
   padding-top: 1rem;
 }
 
-
-
 .MBC-Dataview {
   grid-area: 2 / 3 / 2 / 4;
   border: solid 1px black;
@@ -136,5 +134,5 @@
 }
 
 .MBC-Dataview-yAxis-Hr {
-  width: 40%;
+  width: 30%;
 }

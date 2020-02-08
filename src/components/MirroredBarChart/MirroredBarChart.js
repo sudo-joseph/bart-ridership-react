@@ -11,14 +11,6 @@ class MirroredBarChart extends Component {
         <Header
            title={this.props.title}
            subtitle={this.props.subtitle}/>
-        <div className="MBC-Dataview-yAxis">
-          <div className="MBC-Dataview-yAxis-Top">
-            {this.props.yAxisLabelTop}
-          </div>
-          <div className="MBC-Dataview-yAxis-Bottom">
-            {this.props.yAxisLabelBottom}
-          </div>
-        </div>
         <div className="MBC-Dataview">
           <div className="MBC-Dataview-Controls">
             {this.props.controls.map((data,index) => (
@@ -37,7 +29,7 @@ class MirroredBarChart extends Component {
             <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
-            <div>{this.props.yAxisRange} Pax</div>
+            <div>{`${this.props.yAxisLabelTop}: ${this.props.yAxisRange} Pax`} </div>
             <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
@@ -69,7 +61,7 @@ class MirroredBarChart extends Component {
             <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
-            <div>{this.props.yAxisRange} Pax</div>
+            <div>{`${this.props.yAxisLabelBottom}: ${this.props.yAxisRange} Pax`} </div>
             <div className="MBC-Dataview-yAxis-Hr">
               <hr />
             </div>
