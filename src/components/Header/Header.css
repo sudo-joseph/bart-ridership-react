@@ -1,0 +1,6 @@
+.Header-Title {
+  grid-area: 1 / 2 / 1 / 4;
+  text-align: center;
+  background-color: var(--main-color-2);
+  border: solid 5px var(--secondary-color-2);
+}
